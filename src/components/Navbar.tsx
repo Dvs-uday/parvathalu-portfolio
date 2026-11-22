@@ -20,7 +20,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultation }) => {
       }
 
       // Track active section
-      const sections = ['home', 'impact', 'about', 'expertise', 'branch', 'awareness', 'achievements', 'contact'];
+      const sections = ['home', 'impact', 'about', 'expertise', 'calculator', 'branch', 'awareness', 'contact'];
       for (const section of sections) {
         const el = document.getElementById(section);
         if (el) {
@@ -41,9 +41,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenConsultation }) => {
     { name: 'Home', href: '#home' },
     { name: 'About', href: '#about' },
     { name: 'Expertise', href: '#expertise' },
+    { name: 'Calculator', href: '#calculator' },
     { name: 'Branch', href: '#branch' },
     { name: 'Awareness', href: '#awareness' },
-    { name: 'Awards', href: '#achievements' },
     { name: 'Contact', href: '#contact' },
   ];
 

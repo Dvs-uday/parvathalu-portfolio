@@ -30,17 +30,19 @@ export const CoverageCalculatorModal: React.FC<CoverageCalculatorModalProps> = (
   const [activeTab, setActiveTab] = useState<'calculator' | 'compare'>('calculator');
   
   // Calculator inputs
-  const [familyType, setFamilyType] = useState<'individual' | 'young-couple' | 'family-children' | 'multi-gen' | 'seniors'>('young-couple');
+  const [familyType, setFamilyType] = useState<'individual' | 'young-couple' | 'women-family' | 'family-children' | 'multi-gen' | 'seniors'>('young-couple');
   const [ageGroup, setAgeGroup] = useState<'young' | 'mid' | 'senior' | 'elderly'>('young');
   const [sumInsuredTier, setSumInsuredTier] = useState<'10L' | '25L' | '50L' | '1Cr'>('25L');
-  const [priority, setPriority] = useState<'freeze-age' | 'maternity-family' | 'any-room-ped'>('freeze-age');
+  const [priority, setPriority] = useState<'freeze-age' | 'women-maternity' | 'multi-gen' | 'any-room-ped'>('freeze-age');
 
   if (!isOpen) return null;
 
-  // Exact matching logic based strictly on the 3 official policy brochures
-  let matchedPolicyId: 'young-star-neo' | 'star-assure' | 'super-star' = 'young-star-neo';
+  // Exact matching logic based strictly on the 4 official policy brochures
+  let matchedPolicyId: 'young-star-neo' | 'star-women-care' | 'star-assure' | 'super-star' = 'young-star-neo';
 
-  if (familyType === 'multi-gen' || priority === 'maternity-family' || (ageGroup === 'senior' && familyType !== 'individual')) {
+  if (familyType === 'women-family' || priority === 'women-maternity') {
+    matchedPolicyId = 'star-women-care';
+  } else if (familyType === 'multi-gen' || priority === 'multi-gen') {
     matchedPolicyId = 'star-assure';
   } else if (priority === 'any-room-ped' || ageGroup === 'elderly' || familyType === 'seniors') {
     matchedPolicyId = 'super-star';
@@ -61,7 +63,7 @@ export const CoverageCalculatorModal: React.FC<CoverageCalculatorModalProps> = (
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-navy-950/75 backdrop-blur-sm animate-in fade-in duration-200">
       <div 
-        className="relative w-full max-w-4xl bg-white rounded-3xl shadow-soft-xl border border-slate-200 overflow-hidden max-h-[92vh] flex flex-col"
+        className="relative w-full max-w-5xl bg-white rounded-3xl shadow-soft-xl border border-slate-200 overflow-hidden max-h-[92vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Top Header */}
@@ -74,7 +76,7 @@ export const CoverageCalculatorModal: React.FC<CoverageCalculatorModalProps> = (
               <div className="flex items-center gap-2">
                 <h3 className="text-base sm:text-lg font-extrabold text-white">Coverage Need Calculator</h3>
                 <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-500/30 text-blue-200 border border-blue-400/40">
-                  Top 3 Selling Star Policies
+                  4 Flagship Star Policies
                 </span>
               </div>
               <p className="text-xs text-slate-300">
@@ -91,7 +93,7 @@ export const CoverageCalculatorModal: React.FC<CoverageCalculatorModalProps> = (
           </button>
         </div>
 
-        {/* Mode Selector Tabs (Calculator vs Compare 3 Policies) */}
+        {/* Mode Selector Tabs */}
         <div className="flex border-b border-slate-200 bg-slate-50/80 px-6 pt-3 shrink-0">
           <button
             onClick={() => setActiveTab('calculator')}
@@ -111,7 +113,7 @@ export const CoverageCalculatorModal: React.FC<CoverageCalculatorModalProps> = (
                 : 'text-slate-500 hover:text-navy-900'
             }`}
           >
-            <span>2. Compare All 3 Flagship Policies</span>
+            <span>2. Compare All 4 Flagship Policies</span>
             <span className="text-[10px] font-extrabold px-1.5 py-0.2 rounded bg-corporate-light text-corporate">
               Verified Specs
             </span>
@@ -129,13 +131,14 @@ export const CoverageCalculatorModal: React.FC<CoverageCalculatorModalProps> = (
                 <label className="text-xs font-bold text-navy-900 uppercase tracking-wider block mb-2">
                   1. Who are you protecting?
                 </label>
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 text-xs">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 text-xs">
                   {[
                     { id: 'individual', label: 'Self (1 Adult)' },
                     { id: 'young-couple', label: 'Self + Spouse' },
+                    { id: 'women-family', label: 'Women & Family (SWC)' },
                     { id: 'family-children', label: 'Couple + Kids' },
-                    { id: 'multi-gen', label: 'Family + Parents/In-Laws' },
-                    { id: 'seniors', label: 'Senior Parents Only' },
+                    { id: 'multi-gen', label: 'Multi-Gen (incl. In-Laws)' },
+                    { id: 'seniors', label: 'Senior Parents' },
                   ].map((f) => (
                     <button
                       key={f.id}
@@ -179,7 +182,7 @@ export const CoverageCalculatorModal: React.FC<CoverageCalculatorModalProps> = (
                 </div>
               </div>
 
-              {/* Question 3: Coverage Amount & Question 4: Specific Benefit Priorities */}
+              {/* Question 3 & 4 */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="text-xs font-bold text-navy-900 uppercase tracking-wider block mb-2">
@@ -214,13 +217,14 @@ export const CoverageCalculatorModal: React.FC<CoverageCalculatorModalProps> = (
                   <div className="flex flex-col gap-1.5 text-xs">
                     {[
                       { id: 'freeze-age', label: 'Freeze Entry Age & Lowest Long-Term Premium' },
-                      { id: 'maternity-family', label: 'Maternity, IVF, New Born & Multi-Gen (Parents/In-laws)' },
+                      { id: 'women-maternity', label: 'Women Care: Maternity, Pregnancy Scan, Mother ICU & 2-Yr PED' },
+                      { id: 'multi-gen', label: 'Multi-Gen Family (Up to 6 Adults + In-Laws) & Annual Checkup' },
                       { id: 'any-room-ped', label: 'Any Room Category & 31-Day Quick Shield for BP/Sugar' },
                     ].map((p) => (
                       <button
                         key={p.id}
                         onClick={() => setPriority(p.id as any)}
-                        className={`p-2.5 rounded-xl border font-bold text-left px-3 ${
+                        className={`p-2 rounded-xl border font-bold text-left px-3 text-[11px] sm:text-xs leading-snug ${
                           priority === p.id
                             ? 'bg-corporate text-white border-corporate'
                             : 'bg-surface-soft border-slate-200 text-slate-700 hover:bg-slate-100'
@@ -268,7 +272,7 @@ export const CoverageCalculatorModal: React.FC<CoverageCalculatorModalProps> = (
                       <Bed className="w-3.5 h-3.5 text-corporate" />
                       <span className="font-semibold text-[11px]">Room Rent</span>
                     </div>
-                    <p className="font-bold text-navy-900">{selectedPolicy.roomRent}</p>
+                    <p className="font-bold text-navy-900 leading-snug">{selectedPolicy.roomRent}</p>
                   </div>
 
                   <div className="bg-white p-3 rounded-xl border border-slate-200/90 shadow-xs">
@@ -276,7 +280,7 @@ export const CoverageCalculatorModal: React.FC<CoverageCalculatorModalProps> = (
                       <Clock className="w-3.5 h-3.5 text-corporate" />
                       <span className="font-semibold text-[11px]">Pre / Post Hosp</span>
                     </div>
-                    <p className="font-bold text-navy-900">{selectedPolicy.prePostHospitalization}</p>
+                    <p className="font-bold text-navy-900 leading-snug">{selectedPolicy.prePostHospitalization}</p>
                   </div>
 
                   <div className="bg-white p-3 rounded-xl border border-slate-200/90 shadow-xs">
@@ -284,7 +288,7 @@ export const CoverageCalculatorModal: React.FC<CoverageCalculatorModalProps> = (
                       <ShieldCheck className="w-3.5 h-3.5 text-corporate" />
                       <span className="font-semibold text-[11px]">Restoration</span>
                     </div>
-                    <p className="font-bold text-navy-900">{selectedPolicy.restoration}</p>
+                    <p className="font-bold text-navy-900 leading-snug">{selectedPolicy.restoration}</p>
                   </div>
 
                   <div className="bg-white p-3 rounded-xl border border-slate-200/90 shadow-xs">
@@ -292,7 +296,7 @@ export const CoverageCalculatorModal: React.FC<CoverageCalculatorModalProps> = (
                       <Award className="w-3.5 h-3.5 text-corporate" />
                       <span className="font-semibold text-[11px]">Bonus</span>
                     </div>
-                    <p className="font-bold text-navy-900">{selectedPolicy.cumulativeBonus}</p>
+                    <p className="font-bold text-navy-900 leading-snug">{selectedPolicy.cumulativeBonus}</p>
                   </div>
                 </div>
 
@@ -338,12 +342,12 @@ export const CoverageCalculatorModal: React.FC<CoverageCalculatorModalProps> = (
 
             </div>
           ) : (
-            /* =================== TAB 2: SIDE-BY-SIDE COMPARISON OF 3 POLICIES =================== */
+            /* =================== TAB 2: SIDE-BY-SIDE COMPARISON OF 4 POLICIES =================== */
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <div>
                   <h4 className="text-lg font-bold text-navy-900">
-                    Comparison: Star's Top 3 Selling Health Policies
+                    Comparison: Star's Top 4 Flagship Health Policies
                   </h4>
                   <p className="text-xs text-slate-500">
                     Precise specifications compiled directly from Star Health brochures in our Banjara Hills office.
@@ -351,69 +355,59 @@ export const CoverageCalculatorModal: React.FC<CoverageCalculatorModalProps> = (
                 </div>
               </div>
 
-              {/* Responsive Comparison Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* 4-Column Responsive Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {MAJOR_POLICIES.map((policy) => (
                   <div
                     key={policy.id}
-                    className="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs flex flex-col justify-between hover:border-corporate transition-all"
+                    className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs flex flex-col justify-between hover:border-corporate transition-all"
                   >
                     <div>
                       {/* Badge & Title */}
                       <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-blue-50 text-corporate border border-blue-100">
-                        Top Seller
+                        {policy.id === 'star-women-care' ? 'Women & Family' : 'Top Seller'}
                       </span>
-                      <h5 className="text-lg font-extrabold text-navy-900 mt-2">
+                      <h5 className="text-base font-extrabold text-navy-900 mt-2 leading-tight">
                         {policy.name}
                       </h5>
-                      <p className="text-[11px] text-slate-500 italic mb-3">
+                      <p className="text-[11px] text-slate-500 italic mb-2 line-clamp-2">
                         {policy.tagline}
                       </p>
-                      <p className="text-[10px] font-mono text-slate-400 mb-4 truncate">
+                      <p className="text-[10px] font-mono text-slate-400 mb-3 truncate">
                         {policy.uin}
                       </p>
 
                       {/* Spec List */}
-                      <div className="space-y-2.5 text-xs text-slate-700 border-t border-slate-100 pt-3 mb-4">
+                      <div className="space-y-2 text-xs text-slate-700 border-t border-slate-100 pt-3 mb-4">
                         <div>
                           <span className="text-slate-400 block text-[10px] uppercase font-bold">Entry Age</span>
-                          <span className="font-semibold text-navy-900">{policy.entryAge.floaterAdults}</span>
-                        </div>
-
-                        <div>
-                          <span className="text-slate-400 block text-[10px] uppercase font-bold">Family Size</span>
-                          <span className="font-semibold text-navy-900">{policy.maxFamilySize}</span>
+                          <span className="font-semibold text-navy-900 text-[11px] leading-tight block">{policy.entryAge.floaterAdults}</span>
                         </div>
 
                         <div>
                           <span className="text-slate-400 block text-[10px] uppercase font-bold">Room Rent</span>
-                          <span className="font-semibold text-navy-900">{policy.roomRent}</span>
+                          <span className="font-semibold text-navy-900 text-[11px] leading-tight block">{policy.roomRent}</span>
                         </div>
 
                         <div>
                           <span className="text-slate-400 block text-[10px] uppercase font-bold">Pre / Post Hospitalization</span>
-                          <span className="font-semibold text-navy-900">{policy.prePostHospitalization}</span>
+                          <span className="font-semibold text-navy-900 text-[11px] leading-tight block">{policy.prePostHospitalization}</span>
                         </div>
 
                         <div>
                           <span className="text-slate-400 block text-[10px] uppercase font-bold">Automatic Restoration</span>
-                          <span className="font-semibold text-navy-900">{policy.restoration}</span>
+                          <span className="font-semibold text-navy-900 text-[11px] leading-tight block">{policy.restoration}</span>
                         </div>
 
                         <div>
-                          <span className="text-slate-400 block text-[10px] uppercase font-bold">Cumulative Bonus</span>
-                          <span className="font-semibold text-navy-900">{policy.cumulativeBonus}</span>
-                        </div>
-
-                        <div>
-                          <span className="text-slate-400 block text-[10px] uppercase font-bold">Mandatory Co-Pay</span>
-                          <span className="font-semibold text-navy-900">{policy.coPay}</span>
+                          <span className="text-slate-400 block text-[10px] uppercase font-bold">Bonus</span>
+                          <span className="font-semibold text-navy-900 text-[11px] leading-tight block">{policy.cumulativeBonus}</span>
                         </div>
                       </div>
 
                       {/* Standout Benefit */}
-                      <div className="p-2.5 rounded-lg bg-blue-50/70 border border-blue-100 text-[11px] text-navy-900 mb-4">
-                        <span className="font-bold text-corporate">Signature Benefit: </span>
+                      <div className="p-2 rounded-lg bg-blue-50/70 border border-blue-100 text-[10px] text-navy-900 mb-4">
+                        <span className="font-bold text-corporate block mb-0.5">Signature USP: </span>
                         <span>{policy.keyUSPs[0]}</span>
                       </div>
                     </div>
@@ -423,7 +417,7 @@ export const CoverageCalculatorModal: React.FC<CoverageCalculatorModalProps> = (
                         href={policy.pdfUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-full py-1.5 text-center text-[11px] font-bold text-slate-600 hover:text-corporate flex items-center justify-center gap-1"
+                        className="w-full py-1 text-center text-[11px] font-bold text-slate-600 hover:text-corporate flex items-center justify-center gap-1"
                       >
                         <FileText className="w-3 h-3" />
                         <span>Official PDF</span>
@@ -431,9 +425,9 @@ export const CoverageCalculatorModal: React.FC<CoverageCalculatorModalProps> = (
                       </a>
                       <button
                         onClick={() => handleDiscuss(policy)}
-                        className="w-full py-2.5 px-3 rounded-xl text-xs font-bold text-white bg-corporate hover:bg-corporate-hover text-center transition-colors shadow-xs"
+                        className="w-full py-2 px-3 rounded-xl text-xs font-bold text-white bg-corporate hover:bg-corporate-hover text-center transition-colors shadow-xs"
                       >
-                        Discuss {policy.name.split(' ')[1] || policy.name}
+                        Discuss Plan
                       </button>
                     </div>
                   </div>
@@ -447,9 +441,9 @@ export const CoverageCalculatorModal: React.FC<CoverageCalculatorModalProps> = (
             <div className="flex items-start gap-2.5 text-slate-600">
               <Info className="w-4 h-4 text-corporate shrink-0 mt-0.5" />
               <div>
-                <span className="font-bold text-navy-900">Want other Star Health policies?</span>
+                <span className="font-bold text-navy-900">Need another specialized Star Health policy?</span>
                 <p className="text-[11px] text-slate-500 mt-0.5">
-                  Looking for Senior Citizens Red Carpet, Star Cardiac Care, Cancer Care, or Corporate Group policies? Connect with Damarla Parvathalu for personalized advisory.
+                  Looking for Senior Citizens Red Carpet, Star Cardiac Care, Diabetes Special, Cancer Care, or Corporate Group Mediclaim? Connect with Damarla Parvathalu for specialized advisory.
                 </p>
               </div>
             </div>

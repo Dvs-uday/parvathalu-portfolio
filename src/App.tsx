@@ -4,9 +4,9 @@ import { Hero } from './components/Hero';
 import { ProfessionalImpact } from './components/ProfessionalImpact';
 import { AboutMe } from './components/AboutMe';
 import { Expertise } from './components/Expertise';
+import { CoverageCalculatorSection } from './components/CoverageCalculatorSection';
 import { BranchShowcase } from './components/BranchShowcase';
 import { InsuranceAwareness } from './components/InsuranceAwareness';
-import { Achievements } from './components/Achievements';
 import { ContactConnect } from './components/ContactConnect';
 import { Footer } from './components/Footer';
 import { MobileStickyBar } from './components/MobileStickyBar';
@@ -43,34 +43,45 @@ export const App: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col bg-white text-body-primary font-sans overflow-x-hidden w-full max-w-full pb-16 sm:pb-0">
       {/* Top Navbar */}
-      <Navbar onOpenConsultation={() => handleOpenConsultation(undefined, 'Free Insurance Advisory')} />
+      <Navbar 
+        onOpenConsultation={() => handleOpenConsultation(undefined, 'Free Insurance Advisory')} 
+      />
 
       {/* Main Sections */}
       <main className="flex-1 w-full max-w-full overflow-x-hidden">
         {/* 1. Hero Section */}
-        <Hero onOpenConsultation={() => handleOpenConsultation(undefined, 'Free Insurance Advisory')} />
+        <Hero 
+          onOpenConsultation={() => handleOpenConsultation(undefined, 'Free Insurance Advisory')} 
+        />
 
         {/* 2. Professional Impact (Animated Stats: 12+ Yrs, 3,000+ Customers) */}
         <ProfessionalImpact />
 
         {/* 3. About Me */}
-        <AboutMe onOpenConsultation={() => handleOpenConsultation('Requesting a comprehensive Family Health Coverage Review.', 'Schedule Coverage Review')} />
+        <AboutMe 
+          onOpenConsultation={() => handleOpenConsultation('Requesting a comprehensive Family Health Coverage Review.', 'Schedule Coverage Review')} 
+        />
 
         {/* 4. Specialized Insurance & Leadership Expertise */}
         <Expertise />
 
-        {/* 5. Star Health Insurance — Banjara Hills Branch Hub */}
-        <BranchShowcase onOpenConsultation={() => handleOpenConsultation(undefined, 'Contact Banjara Hills Branch')} />
+        {/* 5. HIGHLIGHTED IN MIDDLE: Interactive Coverage Calculator & Policy Matcher */}
+        <CoverageCalculatorSection
+          onOpenConsultation={(details, title) => handleOpenConsultation(details, title || 'Discuss Recommended Plan')}
+          onOpenCompareModal={handleOpenCalculator}
+        />
 
-        {/* 6. Health Insurance Awareness & Consumer Literacy */}
+        {/* 6. Star Health Insurance — Banjara Hills Branch Hub */}
+        <BranchShowcase 
+          onOpenConsultation={() => handleOpenConsultation(undefined, 'Contact Banjara Hills Branch')} 
+        />
+
+        {/* 7. Health Insurance Awareness & Consumer Literacy */}
         <InsuranceAwareness 
           onOpenCalculator={handleOpenCalculator}
           onOpenConsultation={() => handleOpenConsultation('Inquiry from Health Insurance Awareness Guide', 'Free Insurance Advisory')}
           onOpenAudit={() => handleOpenConsultation('Requesting a comprehensive audit of existing health policy (room rent sub-limits, exclusions, restoration benefits review).', 'Request Free Policy Audit')}
         />
-
-        {/* 7. Achievements & Leadership Honors */}
-        <Achievements />
 
         {/* 8. Contact & Connect (Banjara Hills Office) */}
         <ContactConnect />
@@ -93,7 +104,7 @@ export const App: React.FC = () => {
         customTitle={consultationTitle}
       />
 
-      {/* Interactive Coverage Need Estimator Modal */}
+      {/* Interactive Coverage Need Estimator / Comparison Modal */}
       <CoverageCalculatorModal
         isOpen={isCalculatorOpen}
         onClose={handleCloseCalculator}

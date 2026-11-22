@@ -1,5 +1,5 @@
 export interface MajorPolicy {
-  id: 'young-star-neo' | 'star-assure' | 'super-star';
+  id: 'young-star-neo' | 'star-assure' | 'super-star' | 'star-women-care';
   name: string;
   tagline: string;
   uin: string;
@@ -58,6 +58,43 @@ export const MAJOR_POLICIES: MajorPolicy[] = [
       'Limitless Loyalty Bonus option: 100% additional base SI on every renewal without cap',
     ],
     bestFor: 'Young individuals, newlyweds, and young families aged 18 to 40 seeking locked-in entry premiums and high-sum coverage.',
+  },
+  {
+    id: 'star-women-care',
+    name: 'Star Women Care Insurance Policy',
+    tagline: 'Dedicated protection for Women and her family',
+    uin: 'SHAHLIP27051V032627',
+    pdfUrl: '/policies/star-women-care.pdf',
+    entryAge: {
+      individual: '18 to 75 Years (Females only)',
+      floaterAdults: '18 to 75 Years (At least 1 adult female + spouse)',
+      floaterChildren: '91 Days to 25 Years (Unmarried daughter up to 30 yrs)',
+    },
+    sumInsuredOptions: [
+      '₹5 Lakhs', '₹10 Lakhs', '₹15 Lakhs', '₹20 Lakhs', 
+      '₹25 Lakhs', '₹50 Lakhs', '₹1 Crore'
+    ],
+    maxFamilySize: 'At least 1 adult female along with spouse and dependent children (daughters covered up to 30 yrs)',
+    roomRent: '5L SI: 1% of SI | 10L–25L SI: Any Room (except suite) | 50L & 100L SI: Any Room',
+    prePostHospitalization: '60 Days Pre / 90 Days Post Hospitalization',
+    restoration: '100% of basic Sum Insured, once, immediately upon partial / full utilization',
+    cumulativeBonus: '20% of expiring SI per claim-free year (from 2nd year), up to 100%',
+    waitingPeriods: {
+      initial: '30 Days',
+      specificDiseases: '2 Years',
+      ped: '2 Years (24 Months - Faster than typical 36 months)',
+    },
+    coPay: 'Zero mandatory co-payment',
+    keyUSPs: [
+      'Special Pregnancy Purchase: Pregnant women can buy policy by submitting 12th & 20th week scan reports',
+      'Delivery Expenses (Normal & C-Section) covered; Waiting period only 1 year for SI ≥ ₹15 Lakhs',
+      'Assisted Reproduction Treatment (ART / IVF) covered up to ₹50,000 to ₹3 Lakhs',
+      'New Born Baby covered from Day 1 (up to 25% of SI in year of birth, incl. congenital defects)',
+      'Star Mother Cover: Single Private AC room for mother if child < 12 yrs in ICU (or ₹2,500/day hotel)',
+      'Unmarried or unemployed daughters can continue as dependent children up to 30 years',
+      'Optional Lump Sum Cancer Cover for females: ₹5L to ₹25L on first diagnosis',
+    ],
+    bestFor: 'Women, expectant mothers, families planning for children, and households seeking comprehensive maternity, new born care, and faster 2-year PED coverage.',
   },
   {
     id: 'star-assure',

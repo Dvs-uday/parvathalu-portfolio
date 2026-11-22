@@ -88,9 +88,9 @@ export const Footer: React.FC = () => {
                 </a>
               </li>
               <li>
-                <a href="#achievements" className="hover:text-white transition-colors flex items-center gap-1.5">
+                <a href="#calculator" className="hover:text-white transition-colors flex items-center gap-1.5">
                   <ArrowRight className="w-3 h-3 text-corporate" />
-                  <span>Awards & Recognition</span>
+                  <span>Coverage Need Calculator</span>
                 </a>
               </li>
               <li>

@@ -1,13 +1,13 @@
 import React from 'react';
 import { 
-  ShieldCheck, 
   ArrowRight, 
   Building2, 
   Sparkles, 
   ChevronDown, 
   CheckCircle, 
   PhoneCall, 
-  Award 
+  Award,
+  Calculator 
 } from 'lucide-react';
 import { PERSONAL_INFO } from '../data/portfolioData';
 
@@ -100,20 +100,20 @@ export const Hero: React.FC<HeroProps> = ({ onOpenConsultation }) => {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
               <button
-                onClick={() => scrollTo('branch')}
+                onClick={() => scrollTo('calculator')}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold text-white bg-corporate hover:bg-corporate-hover shadow-soft-md shadow-blue-500/25 transition-all text-xs sm:text-sm active:scale-[0.98]"
               >
-                <Building2 className="w-4 h-4 shrink-0" />
-                <span>Discover Banjara Hills Branch</span>
+                <Calculator className="w-4 h-4 shrink-0" />
+                <span>Coverage Calculator</span>
                 <ArrowRight className="w-4 h-4 shrink-0" />
               </button>
 
               <button
-                onClick={() => scrollTo('expertise')}
+                onClick={() => scrollTo('branch')}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-bold text-navy-800 bg-white hover:bg-slate-50 border border-slate-200 shadow-soft-sm text-xs sm:text-sm"
               >
-                <ShieldCheck className="w-4 h-4 text-corporate shrink-0" />
-                <span>Advisory Expertise</span>
+                <Building2 className="w-4 h-4 text-corporate shrink-0" />
+                <span>Banjara Hills Branch</span>
               </button>
 
               <button
